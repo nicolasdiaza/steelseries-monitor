@@ -1,0 +1,20 @@
+# ARCTIC MONITOR - Dependencies
+# Core system monitoring
+requests>=2.31.0
+psutil>=5.9.0
+wmi>=1.5.1
+pywin32>=305
+
+# User interface & controls  
+keyboard>=0.13.5
+colorama>=0.4.6
+
+# Build dependencies
+pyinstaller>=5.7.0
+
+# Optional: GPU monitoring (uncomment if needed)
+# GPUtil>=1.4.0
+
+# Optional: Advanced image processing (uncomment if needed) 
+# Pillow>=10.0.0
+# numpy>=1.24.0

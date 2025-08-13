@@ -1,2 +1,59 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
-*
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.pyc
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# MSI Build
+wix_build/
+msi_output/
+*.msi
+*.wixobj
+*.wixpdb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.spyderproject
+.spyproject
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Config files with sensitive data
+.env
+config.json
+settings.json
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.bak
+
+# Documentation build
+docs/_build/
+
+# Don't ignore
+!assets/
+!src/
