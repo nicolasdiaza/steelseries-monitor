@@ -48,7 +48,7 @@ echo ✅ Executable found: dist\Arctic-Monitor.exe
 :: Mostrar información del ejecutable
 for %%I in ("dist\Arctic-Monitor.exe") do (
     set /a size_mb=%%~zI/1024/1024
-    echo    Size: !size_mb! MB
+    echo    Size: %%~zI bytes
     echo    Date: %%~tI
 )
 
@@ -178,7 +178,9 @@ if %RELEASE_RESULT% equ 0 (
     echo File: Arctic-Monitor.exe
     echo.
     echo 🌐 Release URL:
-    for /f "tokens=*" %%i in ('gh repo view --json url -q .url') do set REPO_URL=%%i
+    gh repo view --json url -q .url > temp_url.txt
+    set /p REPO_URL=<temp_url.txt
+    del temp_url.txt
     echo %REPO_URL%/releases/tag/%VERSION%
     echo.
     echo 📥 Users can now:
