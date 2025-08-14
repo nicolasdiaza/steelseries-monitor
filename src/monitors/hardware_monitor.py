@@ -98,11 +98,12 @@ class HardwareMonitor:
             pythoncom.CoUninitialize()
 
         # Procesar datos
-        cpu_load, cpu_temp, gpu_load, gpu_temp = None, None, None, None
+        cpu_load, cpu_temp, gpu_load, gpu_temps = None, None, None, None
         memory_used_gb, memory_total_gb = None, None
         
-        cpu_temp_sensors = {"CCD1 (Tdie)": None, "Core (Tctl/Tdie)": None, "CPU Package": None}
+        cpu_temp_sensors = {"CCD1 (Tdie)": None, "Core (Tctl/Tdie)": None}
         cpu_core_loads = []
+        gpu_temp_sensors = {"GPU Core": None, "GPU Hot Spot": None}
 
         for sensor in all_sensors:
             # CPU
@@ -116,8 +117,8 @@ class HardwareMonitor:
             elif gpu_identifier and sensor.Parent == gpu_identifier:
                 if sensor.SensorType == 'Load' and 'gpu core' in sensor.Name.lower():
                     gpu_load = sensor.Value
-                elif sensor.SensorType == 'Temperature' and 'gpu core' in sensor.Name.lower():
-                    gpu_temp = sensor.Value
+                elif sensor.SensorType == 'Temperature' and sensor.name in gpu_temp_sensors:
+                    gpu_temp_sensors[sensor.Name] = sensor.Value
             
             # MEMORIA - buscar sensores específicos de LibreHardwareMonitor
             elif sensor.SensorType == 'Data':                
@@ -133,10 +134,8 @@ class HardwareMonitor:
         if cpu_core_loads:
             cpu_load = statistics.mean(cpu_core_loads)
             
-        cpu_temp = (cpu_temp_sensors.get("CCD1 (Tdie)") or 
-                   cpu_temp_sensors.get("Core (Tctl/Tdie)") or 
-                   cpu_temp_sensors.get("CPU Package"))
-
+        cpu_temp = ((cpu_temp_sensors.get("CCD1 (Tdie)") + cpu_temp_sensors.get("Core (Tctl/Tdie)"))/2)
+        gpu_temp = gpu_temp_sensors.get("GPU Core") or gpu_temp_sensors.get("GPU Hot Spot")
         # Agregar a muestras para promedio
         if cpu_load is not None: 
             self.cpu_usage_samples.append(cpu_load)
